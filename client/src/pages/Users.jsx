@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import UserTable from '../components/users/UserTable'
 import { Form, InputGroup } from 'react-bootstrap'
-import { deleteUser, getUser, createUser } from '../service/user.service'
+import { deleteUser, getUser, createUser, updateUser } from '../service/user.service'
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, Pagination } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -54,6 +54,23 @@ const Users = () => {
 			}
 		}
 	}
+	const updateUserLocal = async () => {
+		const resp = await updateUser(user)
+		if (resp) {
+			if (resp.success) {
+				let tempRow = rows.data
+				const indx = tempRow.findIndex((obj => obj._id === user._id));
+				tempRow[indx].name = user.name;
+				tempRow[indx].email = user.email;
+				setRows(preVal => {
+					return { ...preVal, data: tempRow }
+				})
+				onHide()
+			} else {
+				alert("Something went wrong!")
+			}
+		}
+	}
 	const onHide = () => {
 		setOpenModal(false)
 		setUser({})
@@ -69,7 +86,8 @@ const Users = () => {
 				setUser={setUser}
 				show={openModal}
 				onHide={() => onHide()}
-				submitHandler={() => addUser()}
+				submitHandler={() => user._id ? updateUserLocal() : addUser()}
+				origin={user._id ? "update" : "add"}
 			/>
 			<div className='d-flex justify-content-between mb-2' >
 				<InputGroup className='w-50'>

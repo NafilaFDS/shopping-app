@@ -123,5 +123,25 @@ const getUser = async (req, res) => {
 		res.status(500).send({ success: false, message: err.message });
 	}
 }
-
-module.exports = { createUser, login, deleteUser, getUser };
+const updateUser = async (req, res) => {
+	try {
+		const auth = await isAuth(req);
+		if (!auth.success) {
+			return (res.status(401).json({ success: false, message: "Unauthorized!" }));
+		}
+		req = req.body;
+		await User.findByIdAndUpdate({ _id: req._id }, {
+			$set: {
+				name: req.name,
+				email: req.email
+			}
+		}).catch(e => {
+			throw new Error(e)
+		})
+		res.status(200).send({ success: true, message: "User updated successfully!" });
+	} catch (err) {
+		console.error(err);
+		res.status(500).send({ success: false, message: err.message });
+	}
+}
+module.exports = { createUser, login, deleteUser, getUser, updateUser };

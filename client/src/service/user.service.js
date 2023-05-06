@@ -18,9 +18,9 @@ const getUser = async (reqData) => {
 			return { success: false, message: e.message }
 		})
 }
-const updateItem = async (reqData) => {
-	return await axios.post(`${import.meta.env.VITE_BASE_URL}/update-item`,
-		{ ...reqData }, { headers }).then(({ data }) => {
+const updateUser = async (reqData) => {
+	return await axios.post(`${import.meta.env.VITE_BASE_URL}/update-user`,
+		reqData, { headers }).then(({ data }) => {
 			if (data.success) {
 				return data
 			} else {
@@ -41,7 +41,6 @@ const deleteUser = async (id) => {
 		})
 }
 const createUser = async (req) => {
-	console.log(req)
 	return await axios.post(`${import.meta.env.VITE_BASE_URL}/create-user`,
 		req, { headers }).then(({ data }) => {
 			if (data.success) {
@@ -52,4 +51,4 @@ const createUser = async (req) => {
 		})
 }
 
-export { getUser, updateItem, deleteItem, createUser }
+export { getUser, deleteUser, createUser, updateUser }

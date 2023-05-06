@@ -4,7 +4,7 @@ const itemController = require('./controllers/item.controller');
 const userController = require('./controllers/user.controller');
 
 const { createItem, getItems, updateItem, deleteItem } = itemController
-const { createUser, login, deleteUser, getUser } = userController
+const { createUser, login, deleteUser, getUser, updateUser } = userController
 const router = express.Router();
 
 router.use((req, res, next) => {
@@ -23,5 +23,6 @@ router.post('/create-user', createUser);
 router.post('/login', login);
 router.get('/delete-user/:userId', deleteUser);
 router.post('/get-users', getUser);
+router.post('/update-user', updateUser);
 
 module.exports = router;

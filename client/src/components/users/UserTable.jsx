@@ -6,7 +6,7 @@ import { Button } from '@mui/material';
 import moment from 'moment';
 
 export default function UserTable(props) {
-	const { rows, deleteLocal } = props
+	const { rows, deleteLocal, setUser, setOpenModal } = props
 	const user_id = localStorage.getItem("id");
 
 	return (
@@ -34,6 +34,14 @@ export default function UserTable(props) {
 												onClick={() => deleteLocal(item._id)}
 											>
 												<DeleteOutlineIcon />
+											</Button>
+											<Button variant="contained"
+												onClick={() => {
+													setUser(item)
+													setOpenModal(true)
+												}}
+											>
+												<EditIcon />
 											</Button>
 										</>
 									}
